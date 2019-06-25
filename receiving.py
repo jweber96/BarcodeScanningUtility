@@ -68,7 +68,7 @@ def setupCOMPort():
 def checkPorts():
     ports = serial.tools.list_ports.comports()
     for port, desc, hwid in sorted(ports):
-        if 'Industrial Charge & Communication Base' in desc:
+        if '###BARCODE SCANNER DESCRIPTION###' in desc:
             return port
     print('UNABLE TO LOCATE SCANNER. DEFAULTING TO COM3...')
     return 'COM3'
