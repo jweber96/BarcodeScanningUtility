@@ -39,7 +39,7 @@ def printHeader():
     print(' *    RECEIVING BARCODE SCANNER UTILITY    * ')
     print(' ******************************************* ')
     print(' *    Written/Developed by Jesse Weber     * ')
-    print(' ******************************************* ')
+    print(' ******************************************* \n')
 
 # Print Footer
 def printFooter():
@@ -314,7 +314,7 @@ def findCorrectionProcedure(keyboard, ser):
 
     correctQuantity(keyboard, dataQ)
 
-    purchaseOrder(keyboard, data, 6)
+    purchaseOrder(keyboard, dataP, 6)
     itemNumber(keyboard, dataI)
 
     dataQ = nextScan('Select the appropriate field then scan Quantity...', ser)
