@@ -5,7 +5,7 @@
 receiving.py   Version 1.1
 Automate receiving inventory data entry tasks by selecting (scanning) a scanner mode.
 Author: Jesse Weber
-Last Updated: 06/26/2019
+Last Updated: 06/27/2019
 
 '''
 
@@ -60,6 +60,8 @@ def setupCOMPort():
             print('Enter COM port name or \'Exit\' to quit')
             response = input()
             if response.lower() == 'exit':
+                printFooter()
+                time.sleep(0.5)
                 sys.exit()
             else:
                 port = response.upper()
@@ -94,16 +96,14 @@ def checkModeChange(data):
     result = False
     if data[:7] == 'setMode':
         result = True
-        
     return result
 
 # Change Mode to &data and return the mode
 def changeMode(data):
     
-    codeKey, value = data.split(':')
+    prefix, value = data.split(':')
     mode = value
     print('\nMODE CHANGED TO: ' + modes[value])
-    
     return mode
 
 # Set default mode and return it
@@ -114,6 +114,7 @@ def setDefaultMode(ser):
         if checkModeChange(data):
             default = changeMode(data)
             selection = True
+            # Correct exit as default mode
             if default == 'exit':
                 default = 'printData'
     return default
@@ -368,21 +369,23 @@ def main():
         # Set default mode
         default = setDefaultMode(ser)
         mode = default
-
+        data = ''
+        
         # Continuously listen to COM port
         loop = True
         while loop:
 
             print('\nMODE: ' + modes[mode])
-            # data = nextScan('Waiting for scan...', ser)   # get data from barcode scanner
                 
             # Exit - Exit Script
             if mode == 'exit':
-                loop = exitProcedure(ser)
-                if loop:
+                # loop = exitProcedure(ser)
+                if exitProcedure(ser):
                     print('Returning to default mode...')
                     mode = default
                     data = ''
+                else:
+                    loop = False
                     
             # Type and print data to screen
             elif mode == 'printData': 
@@ -404,9 +407,8 @@ def main():
                 mode = changeMode(data)
                 data = ''
                 continue
-            
+        
         printFooter()
-
         time.sleep(0.5)
         sys.exit()
     # Remove traceback error on Ctrl^C
