@@ -23,9 +23,9 @@ import time
 # Initialize Modes
 modes = {
     'printData':'\'Print Data\'',
-    'findReceipt':'\'Find Expected Receipts\'',
+    'bbb':'\'BBB\'',
     'exit':'\'Exit Script\'',
-    'findCorrection':'\'Find Correction\''
+    'aaa':'\'AAA\''
     }
 
 ####################
@@ -274,8 +274,8 @@ def main():
                 keyboard.type(data)
                 print(data)
 
-            # Receiving - Find Expected Receipt
-            elif mode == 'findReceipt': 
+            # bbb - BBB
+            elif mode == 'bbb': 
              
                 # Purchase Order Field
                 PurchaseOrder(data, 7)
@@ -288,7 +288,7 @@ def main():
                 
                 # Purchase Order Field
                 ItemNumber(data)
-                data = NextScan('Please close \'Receipt Header\' window then scan Quantity...', ser)
+                data = NextScan('Please close \'###\' window then scan Quantity...', ser)
                 
                 # Check for a mode change
                 if CheckModeChange(data):
@@ -314,8 +314,8 @@ def main():
                     mode = ChangeMode(data)
                     continue
         
-            # Correction - Find Correction
-            elif mode == 'findCorrection':
+            # aaa - AAA
+            elif mode == 'aaa':
             
                 # Purchase Order Field
                 PurchaseOrder(data, 6)
