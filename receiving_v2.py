@@ -24,9 +24,9 @@ import time
 # Initialize Modes
 modes = {
     'printData':'\'Print Data\'',
-    'findReceipt':'\'Find Expected Receipts\'',
+    'bbb':'\'BBB\'',
     'exit':'\'Exit Script\'',
-    'findCorrection':'\'Find Correction\''
+    'aaa':'\'AAA\''
     }
 
 ####################
@@ -201,8 +201,8 @@ def subinventory(keyboard, ser):
 # Set up next receipt
 def setupNext(keyboard, ser):
 
-    data = nextScan('Please close \'Receipt Header\' window then scan \'Find Receipt Mode\' to continue...', ser)
-    if data == 'setMode:findReceipt':
+    data = nextScan('Please close \'###\' window then scan \'BBB\' to continue...', ser)
+    if data == 'setMode:bbb':
         
         # Close window with F4
         keyboard.press(Key.f4)
@@ -236,8 +236,8 @@ def correctQuantity(keyboard, data):
         keyboard.release(Key.tab)
         time.sleep(0.1)
     
-# Find Receipt Procedure
-def findReceiptProcedure(keyboard, ser):
+# BBB Procedure
+def bbbProcedure(keyboard, ser):
 
     # Purchase Order Field
     data = nextScan('Waiting for Purchase Order...', ser)
@@ -257,7 +257,7 @@ def findReceiptProcedure(keyboard, ser):
     
     # Purchase Order Field
     itemNumber(keyboard, data)
-    data = nextScan('Please close \'Receipt Header\' window then scan Quantity...', ser)
+    data = nextScan('Please close \'###\' window then scan Quantity...', ser)
     
     # Check for a mode change
     if checkModeChange(data):
@@ -282,10 +282,10 @@ def findReceiptProcedure(keyboard, ser):
     if checkModeChange(data):
         mode = changeMode(data)
         return mode
-    return 'findReceipt'
+    return 'bbb'
 
-# Find Correction Procedure
-def findCorrectionProcedure(keyboard, ser):
+# AAA Procedure
+def aaaProcedure(keyboard, ser):
 
     # Purchase Order Field
     dataP = nextScan('Waiting for Purchase Order...', ser)
@@ -325,7 +325,7 @@ def findCorrectionProcedure(keyboard, ser):
         return mode
     
     correctQuantity(keyboard, dataQ)
-    return 'findCorrection'
+    return 'aaa'
 
 # Print Data Procedure
 def printDataProcedure(keyboard, ser):
@@ -392,14 +392,14 @@ def main():
                 mode = printDataProcedure(keyboard, ser)
                 continue
 
-            # Receiving - Find Expected Receipt
+            # bbb - BBB
             elif mode == 'findReceipt': 
-                mode = findReceiptProcedure(keyboard, ser)
+                mode = bbbProcedure(keyboard, ser)
                 continue
                 
-            # Correction - Find Correction
-            elif mode == 'findCorrection':
-                mode = findCorrectionProcedure(keyboard, ser)
+            # aaa - AAA
+            elif mode == 'aaa':
+                mode = aaaProcedure(keyboard, ser)
                 continue
             
             # Check for a mode change
